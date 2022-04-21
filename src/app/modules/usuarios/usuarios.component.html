@@ -1,0 +1,51 @@
+<h2>Usuarios</h2>
+
+<div class="row">
+  <div class="col-auto">
+    <button
+      pButton
+      type="button"
+      label="Nuevo"
+      icon="pi pi-plus"
+      (click)="onNuevo()"
+    ></button>
+  </div>
+  <div class="col-auto">
+    <button
+      pButton
+      type="button"
+      label="Editar"
+      icon="pi pi-pencil"
+      class="p-button-warning"
+      (click)="onEditar()"
+      [disabled]="!selectedUser"
+    ></button>
+  </div>
+</div>
+
+<div class="row mt-3">
+  <div class="col">
+    <p-table
+      [columns]="cols"
+      [value]="usuarios"
+      [rowHover]="true"
+      selectionMode="single"
+      [(selection)]="selectedUser"
+    >
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr [pSelectableRow]="rowData">
+          <td *ngFor="let col of columns">
+            {{ rowData[col.field] }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
