@@ -65,7 +65,7 @@ export class UsuarioComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (!!id) {
       this.dataService
-        .getUserById(id)
+        .getUserById(+id)
         .pipe(first())
         .subscribe({
           next: (usuario) => {
@@ -78,8 +78,35 @@ export class UsuarioComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
+
     if (this.form.invalid) return;
+
     const user: User = { ...this.form.value };
+    const { id } = this.usuario;
+
+    if (this.usuario != null) {
+      this.updateUser(id, user);
+    } else {
+      this.addUser(user);
+    }
+  }
+
+  updateUser(id: number, user: User): void {
+    this.dataService
+      .updateUser(id, user)
+      .pipe(first())
+      .subscribe({
+        next: (usuario) => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Mensaje',
+            detail: 'Usuario modificado',
+          });
+        },
+      });
+  }
+
+  addUser(user: User): void {
     this.dataService
       .addUser(user)
       .pipe(first())

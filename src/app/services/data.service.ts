@@ -9,6 +9,7 @@ import { User } from '../interfaces';
 })
 export class DataService {
   private apirUrl: string;
+
   constructor(private http: HttpClient) {
     this.apirUrl = environment.apiUrl;
   }
@@ -17,11 +18,15 @@ export class DataService {
     return this.http.get<User[]>(`${this.apirUrl}/users`);
   }
 
-  getUserById(id: string): Observable<User> {
+  getUserById(id: number): Observable<User> {
     return this.http.get<User>(`${this.apirUrl}/users/${id}`);
   }
 
   addUser(user: User): Observable<User> {
     return this.http.post<User>(`${this.apirUrl}/users`, user);
+  }
+
+  updateUser(id: number, user: User): Observable<User> {
+    return this.http.patch<User>(`${this.apirUrl}/users/${id}`, user);
   }
 }
